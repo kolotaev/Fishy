@@ -3,6 +3,6 @@ from app.root import Root
 
 
 if __name__ == '__main__':
-    root = Root().get
+    root = Root()
     Front(root).show()
-    root.mainloop()
+    root.start()
