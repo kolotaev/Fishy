@@ -2,8 +2,8 @@ import tkinter as tk
 
 
 class Menu:
-    def __init__(self, app):
-        self.pw = app.win
+    def __init__(self, root):
+        self.pw = root
         menubar = tk.Menu(self.pw)
         appmenu = tk.Menu(menubar, name='apple')
         menubar.add_cascade(menu=appmenu)
