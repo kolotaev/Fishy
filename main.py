@@ -1,8 +1,6 @@
-from app.front import Front
-from app.root import Root
+from app.root import Application
 
 
 if __name__ == '__main__':
-    root = Root()
-    Front(root).show()
+    root = Application()
     root.start()

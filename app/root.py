@@ -2,41 +2,24 @@ import tkinter as tk
 import threading
 
 from .consts import NAME, GEOMETRY, ICON_PATH, SHOW_TIMEOUT
+from .front import Front
+from .menu import Menu
 
 
-class ShowingThread(threading.Thread):
-    def __init__(self, win):
-        self.win = win
-        self._running_flag = False
-        self.stop = threading.Event()
-        super().__init__()
-
-    def run(self):
-        try:
-            while not self.stop.wait(1):
-                self._running_flag = True
-                print("Waiting for %d secs..." % SHOW_TIMEOUT)
-                self.win.show_again()
-                self.stop.wait(SHOW_TIMEOUT)
-        finally:
-            self._running_flag = False
-
-    def terminate(self):
-        self.stop.set()
-
-
-class Root:
+class Application:
     def __init__(self):
         self.win = tk.Tk()
         self.win.title(NAME)
-        # icon = ImageTk.PhotoImage(file=ICON_PATH)
-        # self.win.tk.call('wm', 'iconphoto', self.win._w, icon)
         try:
             self.win.wm_iconbitmap(ICON_PATH)
         except Exception as e:
             print(e)
         self.win.resizable(0, 0)
         self.win.geometry(GEOMETRY)
+
+        Front(self).add()
+        Menu(self).add()
+
         self.win.protocol("WM_DELETE_WINDOW", self.destroy)
         self.show()
         self.showing_thread = ShowingThread(self)
@@ -71,8 +54,28 @@ class Root:
     def destroy(self):
         print('killing...')
         self.showing_thread.terminate()
-        # self.showing_thread.join()
         self.win.destroy()
 
     def start(self):
         self.win.mainloop()
+
+
+class ShowingThread(threading.Thread):
+    def __init__(self, win):
+        self.win = win
+        self._running_flag = False
+        self.stop = threading.Event()
+        super().__init__()
+
+    def run(self):
+        try:
+            while not self.stop.wait(1):
+                self._running_flag = True
+                print("Waiting for %d secs..." % SHOW_TIMEOUT)
+                self.win.show_again()
+                self.stop.wait(SHOW_TIMEOUT)
+        finally:
+            self._running_flag = False
+
+    def terminate(self):
+        self.stop.set()
