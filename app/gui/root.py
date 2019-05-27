@@ -1,7 +1,7 @@
 import tkinter as tk
 import threading
 
-from .consts import NAME, GEOMETRY, SHOW_TIMEOUT, RESIZABLE
+from ..consts import NAME, GEOMETRY, SHOW_TIMEOUT, RESIZABLE
 from .front import Front
 from .menu import Menu
 from .icons import MainIcon
@@ -17,9 +17,7 @@ class Application:
         Menu(self.win).add()
         MainIcon(self.win).add()
 
-        self.show()
         self.showing_thread = ShowingThread(self)
-        self.showing_thread.start()
 
     def show(self):
         self._center()
@@ -35,6 +33,8 @@ class Application:
         self.win.withdraw()
 
     def start(self):
+        self.showing_thread.start()
+        self.show()
         self.win.mainloop()
 
     def _configure(self):

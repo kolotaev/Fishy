@@ -1,4 +1,4 @@
-from .consts import ICON_PATH
+from ..consts import ICON_PATH
 
 
 class MainIcon:
