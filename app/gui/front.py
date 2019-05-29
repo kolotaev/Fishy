@@ -1,14 +1,17 @@
 import tkinter as tk
 
+from ..conf import config
+
 
 class Front:
     def __init__(self, app):
-        pw = app.win
-        self.source = tk.Label(pw, padx=100, pady=50, text="Юникод!")
-        self.trans = tk.Message(pw, padx=100, background='grey', pady=50, text="Translated!")
-        self.hide_btn = tk.Button(pw, text='Hide', command=app.hide)
+        self.app = app
+        self.pw = app.win
+        self.conf = config
 
     def add(self):
-        self.source.pack()
-        self.trans.pack()
-        self.hide_btn.pack()
+        tk.Label(self.pw, padx=100, pady=50, text="Юникод!").pack()
+        tk.Message(self.pw, padx=100, background='grey', pady=50, text="Translated!").pack()
+        tk.Button(self.pw, text='Hide', command=self.app.hide).pack()
+        tk.Message(self.pw, padx=100, background='grey', pady=50,
+                   text=str(self.conf.getboolean('window', 'resizable'))).pack()
