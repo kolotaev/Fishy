@@ -1,5 +1,5 @@
 import configparser
-from os.path import expanduser, isfile, join
+from os.path import expanduser, exists, join
 
 from .consts import CONF_FILE_NAME
 
@@ -17,6 +17,10 @@ DEFAULTS = {
     'popup': {
         'show_timeout_value': 2,
         'show_timeout_unit': 'sec',
+    },
+    'corpus': {
+        'current': 1,
+        'repeat_count': 30,
     }
 }
 
@@ -30,11 +34,12 @@ def init():
 
 
 def create_if_missing():
-    if not isfile(CONFIG_PATH):
+    if not exists(CONFIG_PATH):
         with open(CONFIG_PATH, 'w') as configfile:
             default_config = configparser.ConfigParser()
             default_config['window'] = DEFAULTS['window']
             default_config['popup'] = DEFAULTS['popup']
+            default_config['corpus'] = DEFAULTS['corpus']
             default_config.write(configfile)
 
 

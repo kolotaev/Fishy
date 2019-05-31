@@ -1,11 +1,12 @@
 import tkinter as tk
+import tkinter.ttk as ttk
 import threading
 
 from ..consts import NAME, GEOMETRY
 from .front import Front
 from .menu import Menu
 from .icons import MainIcon
-from ..conf import config, get_show_timeout
+from ..configurator import config, get_show_timeout
 
 
 class Application:
@@ -39,10 +40,13 @@ class Application:
         self.win.mainloop()
 
     def _configure(self):
+        # self.win.style = ttk.Style()
+        # self.win.style.configure("TFrame", background="red")
         self.win.protocol("WM_DELETE_WINDOW", self._destroy)
         self.win.title(NAME)
         self.win.resizable(0, 0) if config.getboolean('window', 'resizable') else None
         self.win.geometry(GEOMETRY)
+        # self.win.pack(fill=tk.BOTH, expand=True)
 
     def _destroy(self):
         print('killing...')
@@ -73,7 +77,7 @@ class ShowingThread(threading.Thread):
     def run(self):
         timeout = get_show_timeout()
         try:
-            while not self.stop.wait(1):
+            while not self.stop.wait(0):
                 self._running_flag = True
                 print("Waiting for %d secs..." % timeout)
                 self.win.show_again()
