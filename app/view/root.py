@@ -80,7 +80,8 @@ class ShowingThread(threading.Thread):
             while not self.stop.wait(0):
                 self._running_flag = True
                 print("Waiting for %d secs..." % timeout)
-                self.win.show_again()
+                if self.win:
+                    self.win.show_again()
                 self.stop.wait(timeout)
         finally:
             self._running_flag = False
