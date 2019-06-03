@@ -1,10 +1,8 @@
-from app.view import Application
-import app.configurator
+from app import Application
 
 
 def run():
-    app.configurator.init()
-    Application().start()
+    Application.launch()
 
 
 if __name__ == '__main__':
