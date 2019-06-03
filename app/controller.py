@@ -1,23 +1,28 @@
 import threading
+from os.path import expanduser, join
 
-from .configurator import init, get_show_timeout
+from .configurator import Config
 from .view.root import MainFrame
+from .consts import CONF_FILE_NAME
 
 
 class Application:
     @staticmethod
     def launch():
-        init()
-        controller = Controller(None, MainFrame())
+        config_path = join(expanduser('~'), CONF_FILE_NAME)
+        conf = Config(config_path, create=True)
+        conf.init()
+        controller = Controller(None, MainFrame(conf), conf)
         controller.start()
 
 
 class Controller:
-    def __init__(self, model, view):
+    def __init__(self, model, view, config):
         self.model = model
         self.view = view
+        self.config = config
         self.view.on_close(self.stop)
-        self.showing_thread = ShowingThread(view)
+        self.showing_thread = ShowingThread(view, self.config)
 
     def start(self):
         self.showing_thread.start()
@@ -30,14 +35,15 @@ class Controller:
 
 
 class ShowingThread(threading.Thread):
-    def __init__(self, win):
+    def __init__(self, win, config):
         self.win = win
+        self.config = config
         self._running_flag = False
         self.stop = threading.Event()
         super().__init__()
 
     def run(self):
-        timeout = get_show_timeout()
+        timeout = self.config.get_show_timeout()
         try:
             while not self.stop.wait(0):
                 self._running_flag = True

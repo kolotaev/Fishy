@@ -1,13 +1,9 @@
-import configparser
-from os.path import expanduser, exists, join
-
-from .consts import CONF_FILE_NAME
+from configparser import ConfigParser
+from os.path import exists
 
 
 __all__ = [
-    'init',
-    'config',
-    'get_show_timeout',
+    'Config',
 ]
 
 DEFAULTS = {
@@ -24,36 +20,33 @@ DEFAULTS = {
     }
 }
 
-CONFIG_PATH = join(expanduser('~'), CONF_FILE_NAME)
-config = configparser.ConfigParser()
 
+class Config(ConfigParser):
+    def __init__(self, path, create=False, **kwargs):
+        self.path = path
+        self.create = create
+        super().__init__(**kwargs)
 
-def init():
-    create_if_missing()
-    read()
+    def init(self):
+        if self.create:
+            self.create_if_missing()
+        self.read(self.path)
 
+    def create_if_missing(self):
+        if not exists(self.path):
+            with open(self.path, 'w') as configfile:
+                default_config = ConfigParser()
+                default_config['window'] = DEFAULTS['window']
+                default_config['popup'] = DEFAULTS['popup']
+                default_config['corpus'] = DEFAULTS['corpus']
+                default_config.write(configfile)
 
-def create_if_missing():
-    if not exists(CONFIG_PATH):
-        with open(CONFIG_PATH, 'w') as configfile:
-            default_config = configparser.ConfigParser()
-            default_config['window'] = DEFAULTS['window']
-            default_config['popup'] = DEFAULTS['popup']
-            default_config['corpus'] = DEFAULTS['corpus']
-            default_config.write(configfile)
-
-
-def read():
-    global config
-    config.read(CONFIG_PATH)
-
-
-def get_show_timeout():
-    timeout_unit = config.get('popup', 'show_timeout_unit')
-    if timeout_unit == 'hour':
-        unit = 60 * 60
-    elif timeout_unit == 'min':
-        unit = 60
-    else:
-        unit = 1
-    return config.getint('popup', 'show_timeout_value') * unit
+    def get_show_timeout(self):
+        timeout_unit = self.get('popup', 'show_timeout_unit')
+        if timeout_unit == 'hour':
+            unit = 60 * 60
+        elif timeout_unit == 'min':
+            unit = 60
+        else:
+            unit = 1
+        return self.getint('popup', 'show_timeout_value') * unit

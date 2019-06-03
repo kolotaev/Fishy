@@ -4,14 +4,14 @@ from ..consts import NAME, GEOMETRY
 from .front import Front
 from .menu import Menu
 from .icons import MainIcon
-from ..configurator import config
 
 
 class MainFrame:
-    def __init__(self):
+    def __init__(self, config):
+        self.config = config
         self.win = tk.Tk()
         self._configure()
-        Front(self).add()
+        Front(self, config).add()
         Menu(self.win).add()
         MainIcon(self.win).add()
 
@@ -40,7 +40,7 @@ class MainFrame:
 
     def _configure(self):
         self.win.title(NAME)
-        if config.getboolean('window', 'resizable'):
+        if self.config.getboolean('window', 'resizable'):
             self.win.resizable(0, 0)
         self.win.geometry(GEOMETRY)
 

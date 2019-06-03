@@ -1,10 +1,8 @@
 import tkinter as tk
 
-from ..configurator import config
-
 
 class Front:
-    def __init__(self, app):
+    def __init__(self, app, config):
         self.frame = tk.Frame(app.win)
         self.app = app
         self.conf = config
