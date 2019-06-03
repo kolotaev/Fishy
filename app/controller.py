@@ -16,18 +16,17 @@ class Controller:
     def __init__(self, model, view):
         self.model = model
         self.view = view
+        self.view.on_close(self.stop)
         self.showing_thread = ShowingThread(view)
-        self.view.win.protocol('WM_DELETE_WINDOW', self.stop)
 
     def start(self):
         self.showing_thread.start()
         self.view.show()
-        self.view.win.mainloop()
+        self.view.loop()
 
     def stop(self):
         print('killing...')
         self.showing_thread.terminate()
-        self.view.destroy()
 
 
 class ShowingThread(threading.Thread):
@@ -44,7 +43,7 @@ class ShowingThread(threading.Thread):
                 self._running_flag = True
                 print("Waiting for %d secs..." % timeout)
                 if self.win.is_alive:
-                    self.win.show_again()
+                    self.win.show()
                 self.stop.wait(timeout)
         finally:
             self._running_flag = False

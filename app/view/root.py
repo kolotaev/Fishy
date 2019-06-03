@@ -16,24 +16,27 @@ class MainFrame:
         MainIcon(self.win).add()
 
     def show(self):
-        self._center()
-        self._focus()
-
-    def show_again(self):
         self.win.update()
         self.win.deiconify()
-        self.show()
+        self._center()
+        self._focus()
 
     def hide(self):
         self.win.overrideredirect(1)
         self.win.withdraw()
 
-    def destroy(self):
-        self.win.destroy()
-
     @property
     def is_alive(self):
         return self.win.winfo_exists()
+
+    def loop(self):
+        self.win.mainloop()
+
+    def on_close(self, cb):
+        def kill():
+            cb()
+            self.win.destroy()
+        self.win.protocol('WM_DELETE_WINDOW', kill)
 
     def _configure(self):
         self.win.title(NAME)
