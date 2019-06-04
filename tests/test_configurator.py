@@ -23,7 +23,7 @@ class TestConfigurator(unittest.TestCase):
             cf.get.assert_called_once_with('popup', 'show_timeout_unit')
             cf.getint.assert_called_once_with('popup', 'show_timeout_value')
 
-    def test_init_creates_if_missing(self):
+    def test_init_creates_file_if_missing(self):
         cf = Config('foo.cnf', create=True)
         cf.create_if_missing = Mock()
         cf.read = Mock()
@@ -31,7 +31,7 @@ class TestConfigurator(unittest.TestCase):
         cf.create_if_missing.assert_called_once()
         cf.read.assert_called_once()
 
-    def test_init_does_not_create_if_missing(self):
+    def test_init_does_not_create_file_if_missing(self):
         cf = Config('foo.cnf')
         cf.create_if_missing = Mock()
         cf.read = Mock()

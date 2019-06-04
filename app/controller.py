@@ -1,5 +1,5 @@
 import threading
-from os.path import expanduser, join
+import os.path
 
 from .configurator import Config
 from .view.root import MainFrame
@@ -9,7 +9,7 @@ from .consts import CONF_FILE_NAME
 class Application:
     @staticmethod
     def launch():
-        config_path = join(expanduser('~'), CONF_FILE_NAME)
+        config_path = os.path.join(os.path.expanduser('~'), CONF_FILE_NAME)
         conf = Config(config_path, create=True)
         conf.init()
         controller = Controller(None, MainFrame(conf), conf)

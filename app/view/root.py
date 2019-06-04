@@ -40,7 +40,7 @@ class MainFrame:
 
     def _configure(self):
         self.win.title(NAME)
-        if self.config.getboolean('window', 'resizable'):
+        if not self.config.getboolean('window', 'resizable'):
             self.win.resizable(0, 0)
         self.win.geometry(GEOMETRY)
 
