@@ -28,16 +28,7 @@ class Front:
                       padx=12, pady=12, wrap=tk.WORD)
         txt.insert(tk.END, 'What is Lorem Ipsum?')
         txt.pack(fill=tk.BOTH, padx=16, pady=4, ipadx=4, ipady=10)
-        # txt.config(state=tk.DISABLED)
-        # txt.focus_set()
-        # # if tkinter is 8.5 or above you'll want the selection background
-        # # to appear like it does when the widget is activated
-        # # comment this out for older versions of Tkinter
-        # w.configure(bg=master.cget('bg'), relief=FLAT)
-        #
-        # w.configure(state="disabled")
-        txt.bind("<Enter>", lambda x: txt.insert(tk.END, 'aa?'))
-        txt.bind("<Leave>", lambda x: txt.insert(tk.END, 'bb?'))
+        txt.config(state=tk.DISABLED)
         # Expose
         self.app.explain_text = txt
 
