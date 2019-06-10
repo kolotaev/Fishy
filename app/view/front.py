@@ -2,6 +2,11 @@ import tkinter as tk
 
 
 class Front:
+    """
+    Contains all the elements of learning: word, explanation.
+    Also contains needed controls.
+    All the elements are exposed and available in the root application window.
+    """
     def __init__(self, app, config):
         self.frame = tk.Frame(app.win)
         self.app = app
@@ -19,7 +24,7 @@ class Front:
                               text="Юникод очень длинное слово",
                               height=4)
         word_label.pack(fill=tk.BOTH, padx=16, pady=4, ipadx=4, ipady=4)
-        # Expose
+        # Expose to main view
         self.app.word_label = word_label
 
     def _add_explain_text(self):
@@ -29,7 +34,7 @@ class Front:
         txt.insert(tk.END, 'What is Lorem Ipsum?')
         txt.pack(fill=tk.BOTH, padx=16, pady=4, ipadx=4, ipady=10)
         txt.config(state=tk.DISABLED)
-        # Expose
+        # Expose to main view
         self.app.explain_text = txt
 
     def _add_controls(self):
@@ -41,7 +46,7 @@ class Front:
         back_btn.pack(side=tk.LEFT, pady=10, padx=10)
         forward_btn.pack(side=tk.RIGHT, pady=10, padx=10)
         controls_frame.pack(side=tk.BOTTOM, fill=tk.X, expand=True)
-        # Expose controls
+        # Expose controls to main view
         self.app.hide_btn = hide_btn
         self.app.back_btn = back_btn
         self.app.forward_btn = forward_btn

@@ -5,7 +5,7 @@ import tkinter as tk
 from .configurator import Config
 from .view.root import MainFrame
 from .consts import CONF_FILE_NAME
-from .model.words import WordsDatabase
+from .model.words import create_model
 
 
 class Application:
@@ -14,7 +14,7 @@ class Application:
         config_path = os.path.join(os.path.expanduser('~'), CONF_FILE_NAME)
         conf = Config(config_path, create=True)
         conf.init()
-        controller = Controller(WordsDatabase(conf), MainFrame(conf), conf)
+        controller = Controller(create_model(conf), MainFrame(conf), conf)
         controller.start()
 
 
@@ -28,8 +28,8 @@ class Controller:
         self.view.hide_btn.config(command=view.hide)
         self.view.back_btn.config(command=self._show_next)
         self.view.forward_btn.config(command=self._show_previous)
-        self.view.explain_text.bind("<Enter>", self._show_explain)
-        self.view.explain_text.bind("<Leave>", self._hide_explain)
+        self.view.explain_text.bind("<Enter>", self._hide_explain)
+        self.view.explain_text.bind("<Leave>", self._show_explain)
 
     def start(self):
         self.showing_thread.start()
@@ -44,7 +44,9 @@ class Controller:
         self._add_to_expain('aa?\n')
 
     def _hide_explain(self, evt):
-        self._add_to_expain('bb?\n')
+        self.view.explain_text.config(state=tk.NORMAL)
+        self.view.explain_text.delete('1.0', tk.END)
+        self.view.explain_text.config(state=tk.DISABLED)
 
     def _show_next(self):
         self.view.word_label.config(text=self.model.get_next())
