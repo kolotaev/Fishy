@@ -11,7 +11,7 @@ class Menu:
         appmenu.add_separator()
         window_menu = tk.Menu(menubar, name='window')
         menubar.add_cascade(menu=window_menu, label='Window')
-        self.pw.createcommand('tk::mac::ShowPreferences', lambda: print('00'))
+        self.pw.createcommand('tk::mac::ShowPreferences', lambda: print('Not yet implemented'))
         self.menubar = menubar
 
     def add(self):

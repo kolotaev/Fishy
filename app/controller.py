@@ -23,6 +23,9 @@ class Controller:
         self.config = config
         self.view.on_close(self.stop)
         self.showing_thread = ShowingThread(view, self.config)
+        self.view.hide_btn.config(command=view.hide)
+        self.view.back_btn.config(command=view.hide)
+        self.view.forward_btn.config(command=view.hide)
 
     def start(self):
         self.showing_thread.start()
