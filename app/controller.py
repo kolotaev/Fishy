@@ -26,14 +26,15 @@ class Controller:
         self.view.on_close(self.stop)
         self.showing_thread = ShowingThread(view, self.config)
         self.view.hide_btn.config(command=view.hide)
-        self.view.back_btn.config(command=self._show_next)
-        self.view.forward_btn.config(command=self._show_previous)
+        self.view.back_btn.config(command=self._show_previous)
+        self.view.forward_btn.config(command=self._show_next)
         self.view.explain_text.bind("<Enter>", self._hide_explain)
         self.view.explain_text.bind("<Leave>", self._show_explain)
 
     def start(self):
         self.showing_thread.start()
         self.view.show()
+        self._show_current()
         self.view.loop()
 
     def stop(self):
@@ -48,16 +49,31 @@ class Controller:
         self.view.explain_text.delete('1.0', tk.END)
         self.view.explain_text.config(state=tk.DISABLED)
 
+    def _show_current(self):
+        self._show(self.model.get_current())
+
     def _show_next(self):
-        self.view.word_label.config(text=self.model.get_next())
+        self._show(self.model.get_next())
 
     def _show_previous(self):
-        self.view.word_label.config(text=self.model.get_previous())
+        self._show(self.model.get_previous())
 
     def _add_to_expain(self, txt):
         self.view.explain_text.config(state=tk.NORMAL)
         self.view.explain_text.insert(tk.END, txt)
         self.view.explain_text.config(state=tk.DISABLED)
+
+    def _show(self, entry):
+        self.view.word_label.config(text='%s. %s' % (entry.number, entry.word))
+        exp = """
+        [{transcription}]
+        
+        {definition}
+        
+        {examples}
+        """.format(**vars(entry))
+        self._hide_explain(None)
+        self._add_to_expain(exp)
 
 
 class ShowingThread(threading.Thread):
@@ -73,7 +89,7 @@ class ShowingThread(threading.Thread):
         try:
             while not self.stop.wait(0):
                 self._running_flag = True
-                print("Waiting for %d secs..." % timeout)
+                print('Waiting for %d secs...' % timeout)
                 if self.win.is_alive:
                     self.win.show()
                 self.stop.wait(timeout)

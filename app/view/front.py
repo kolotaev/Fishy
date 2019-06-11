@@ -20,9 +20,7 @@ class Front:
         self.frame.pack(fill=tk.BOTH)
 
     def _add_word_label(self):
-        word_label = tk.Label(self.frame, font=("Courier", 22),
-                              text="Юникод очень длинное слово",
-                              height=4)
+        word_label = tk.Label(self.frame, font=("Courier", 22), height=4)
         word_label.pack(fill=tk.BOTH, padx=16, pady=4, ipadx=4, ipady=4)
         # Expose to main view
         self.app.word_label = word_label
@@ -31,7 +29,6 @@ class Front:
         txt = tk.Text(self.frame,
                       background='#f6f6f6', font=('Courier', 14),
                       padx=12, pady=12, wrap=tk.WORD)
-        txt.insert(tk.END, 'What is Lorem Ipsum?')
         txt.pack(fill=tk.BOTH, padx=16, pady=4, ipadx=4, ipady=10)
         txt.config(state=tk.DISABLED)
         # Expose to main view

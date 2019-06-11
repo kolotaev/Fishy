@@ -17,6 +17,7 @@ DEFAULTS = {
     'corpus': {
         'current': 1,
         'repeat_count': 30,
+        'file_path': 'words.csv'
     }
 }
 
@@ -40,6 +41,8 @@ class Config(ConfigParser):
                 default_config['popup'] = DEFAULTS['popup']
                 default_config['corpus'] = DEFAULTS['corpus']
                 default_config.write(configfile)
+        else:
+            print('file already exists')
 
     def get_show_timeout(self):
         timeout_unit = self.get('popup', 'show_timeout_unit')

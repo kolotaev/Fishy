@@ -1,12 +1,27 @@
 from abc import ABCMeta
+import csv
+import os.path
 
 
 def create_model(config):
     # Currently this factory returns only one type of model
-    return JsonFileWords(config)
+    return CsvFileWords(config)
+
+
+class Entry:
+    def __init__(self, **kwargs):
+        self.number = kwargs['number'] or None
+        self.word = kwargs['word'] or None
+        self.transcription = kwargs['transcription'] or None
+        self.definition = kwargs['definition'] or None
+        self.examples = kwargs['examples'] or None
+        self.picture_url = kwargs['picture'] or None
 
 
 class WordsDatabase(metaclass=ABCMeta):
+    def get_current(self):
+        pass
+
     def get_next(self):
         pass
 
@@ -14,19 +29,37 @@ class WordsDatabase(metaclass=ABCMeta):
         pass
 
 
-class JsonFileWords(WordsDatabase):
+class CsvFileWords(WordsDatabase):
     """
     Takes words from a database file.
     Saves current word position into config file.
     """
     def __init__(self, config):
         self.config = config
-        self.current = 0
+        self._current = self.config.getint('corpus', 'current')
+        file = os.path.expanduser(self.config.get('corpus', 'file_path'))
+        self.db = {}
+        if not os.path.exists(file):
+            raise Exception('File does not exist')
+        with open(file) as csv_data_file:
+            dialect = csv.Sniffer().sniff(csv_data_file.read(1024))
+            csv_data_file.seek(0)
+            csv_reader = csv.DictReader(csv_data_file, dialect=dialect)
+            for row in csv_reader:
+                print(row)
+                self.db[int(row['number'])] = Entry(**row)
+
+    @property
+    def current(self):
+        return self.db[self._current]
+
+    def get_current(self):
+        return self.current
 
     def get_next(self):
-        self.current += 1
+        self._current += 1
         return self.current
 
     def get_previous(self):
-        self.current -= 1
+        self._current -= 1
         return self.current
