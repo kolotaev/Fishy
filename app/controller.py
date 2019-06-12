@@ -64,6 +64,8 @@ class Controller:
         self.view.explain_text.config(state=tk.DISABLED)
 
     def _show(self, entry):
+        if not entry:
+            return
         self.view.word_label.config(text='%s. %s' % (entry.number, entry.word))
         exp = """
         [{transcription}]

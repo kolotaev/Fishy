@@ -14,9 +14,9 @@ class Front:
         self.controls = []
 
     def add(self):
+        self._add_controls()
         self._add_word_label()
         self._add_explain_text()
-        self._add_controls()
         self.frame.pack(fill=tk.BOTH)
 
     def _add_word_label(self):
@@ -39,10 +39,10 @@ class Front:
         hide_btn = tk.Button(controls_frame, width=10, text='Hide')
         back_btn = tk.Button(controls_frame, width=10, text='<<')
         forward_btn = tk.Button(controls_frame, width=10, text='>>')
-        hide_btn.pack(side=tk.BOTTOM, pady=10, padx=10)
-        back_btn.pack(side=tk.LEFT, pady=10, padx=10)
-        forward_btn.pack(side=tk.RIGHT, pady=10, padx=10)
-        controls_frame.pack(side=tk.BOTTOM, fill=tk.X, expand=True)
+        hide_btn.pack(side=tk.BOTTOM, pady=0, padx=10)
+        back_btn.pack(side=tk.LEFT, pady=0, padx=10)
+        forward_btn.pack(side=tk.RIGHT, pady=0, padx=10)
+        controls_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         # Expose controls to main view
         self.app.hide_btn = hide_btn
         self.app.back_btn = back_btn

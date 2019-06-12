@@ -12,6 +12,7 @@ class Entry:
     def __init__(self, **kwargs):
         self.number = kwargs['number'] or None
         self.word = kwargs['word'] or None
+        self.part = kwargs['part'] or None
         self.transcription = kwargs['transcription'] or None
         self.definition = kwargs['definition'] or None
         self.examples = kwargs['examples'] or None
@@ -51,7 +52,7 @@ class CsvFileWords(WordsDatabase):
 
     @property
     def current(self):
-        return self.db[self._current]
+        return self.db.get(self._current)
 
     def get_current(self):
         return self.current

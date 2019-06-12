@@ -5,10 +5,11 @@ Tcl/Tk GUI app for learning word corpus.
 Name comes from, you guess it, [this little fishy](https://en.wikipedia.org/wiki/List_of_races_and_species_in_The_Hitchhiker%27s_Guide_to_the_Galaxy#Babel_fish).
 
 
-# Corpus CSV File format
+## Corpus CSV File format
 
 - Number
 - Word
+- Part of the speech
 - Transcription
 - Translation/Meaning/Definition
 - Examples (separated by |)
@@ -19,8 +20,9 @@ Name comes from, you guess it, [this little fishy](https://en.wikipedia.org/wiki
 
 * Clone repository
 * `cd Fishy`
-
 * Run `make install`
+* Create CSV file with words in the aforementioned format and put it somewhere
+* Modify path to file in config
 * Run `fishy`
 
 
