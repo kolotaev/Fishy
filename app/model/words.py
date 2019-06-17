@@ -32,6 +32,9 @@ class Entry:
 
 
 class WordsDatabase(metaclass=ABCMeta):
+    def current(self):
+        pass
+
     def get_current(self):
         pass
 
@@ -59,20 +62,23 @@ class CsvFileWords(WordsDatabase):
             csv_data_file.seek(0)
             csv_reader = csv.DictReader(csv_data_file, dialect=dialect)
             for row in csv_reader:
-                print(row)
-                self.db[int(row['number'])] = Entry(**row)
+                num = int(row['number'])
+                self.db[num] = Entry(**row)
+                self._max = num
 
     @property
     def current(self):
-        return self.db.get(self._current)
+        return self._current
 
     def get_current(self):
-        return self.current
+        return self.db.get(self.current)
 
     def get_next(self):
-        self._current += 1
-        return self.current
+        if self._current < self._max:
+            self._current += 1
+        return self.get_current()
 
     def get_previous(self):
-        self._current -= 1
-        return self.current
+        if self._current > 1:
+            self._current -= 1
+        return self.get_current()

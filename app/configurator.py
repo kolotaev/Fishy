@@ -53,3 +53,8 @@ class Config(ConfigParser):
         else:
             unit = 1
         return self.getint('popup', 'show_timeout_value') * unit
+
+    def save(self, section, option, value):
+        self.set(section, option, str(value))
+        with open(self.path, 'w') as configfile:
+            self.write(configfile)

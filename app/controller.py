@@ -54,9 +54,11 @@ class Controller:
 
     def _show_next(self):
         self._show(self.model.get_next())
+        self.config.save('corpus', 'current', self.model.current)
 
     def _show_previous(self):
         self._show(self.model.get_previous())
+        self.config.save('corpus', 'current', self.model.current)
 
     def _add_to_expain(self, txt):
         self.view.explain_text.config(state=tk.NORMAL)
@@ -71,7 +73,7 @@ class Controller:
         if entry.transcription:
             exp += '[%s]' % entry.transcription
         exp += '\n%s' % entry.definition
-        exp += '\n' + '-' * 10 + '\n\n'
+        exp += '\n\n' + '-' * 10 + '\n\n'
         exp += '\n%s' % entry.examples
         self._hide_explain(None)
         self._add_to_expain(exp)
