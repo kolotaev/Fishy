@@ -20,7 +20,7 @@ class Entry:
 
     @staticmethod
     def _sanitize(data):
-        return data.replace('"\\n"', '\n')
+        return str(data).replace('"\\n"', '\n')
 
     @property
     def definition(self):

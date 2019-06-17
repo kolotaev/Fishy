@@ -70,6 +70,8 @@ class Controller:
             return
         self.view.word_label.config(text='%s. %s' % (entry.number, entry.word))
         exp = ''
+        exp += '\n%s' % entry.part
+        exp += '\n\n' + '-' * 10 + '\n\n'
         if entry.transcription:
             exp += '[%s]' % entry.transcription
         exp += '\n%s' % entry.definition
