@@ -88,3 +88,6 @@ class CsvFileWords(WordsDatabase):
         if self._current > 1:
             self._current -= 1
         return self.get_current()
+
+    def is_current_a_repeat(self):
+        return True

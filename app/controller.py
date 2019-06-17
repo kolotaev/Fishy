@@ -29,8 +29,6 @@ class Controller:
         self.view.hide_btn.config(command=view.hide)
         self.view.back_btn.config(command=self._show_previous)
         self.view.forward_btn.config(command=self._show_next)
-        # self.view.explain_text.bind("<Enter>", self._hide_explain)
-        # self.view.explain_text.bind("<Leave>", self._show_explain)
 
     def start(self):
         self.showing_thread.start()
@@ -42,10 +40,12 @@ class Controller:
         print('killing...')
         self.showing_thread.terminate()
 
-    def _show_explain(self, evt):
-        self._add_to_expain('aa?\n')
+    def _show_explain(self, evt, txt=None):
+        self.view.explain_text.config(state=tk.NORMAL)
+        self.view.explain_text.insert(tk.END, txt)
+        self.view.explain_text.config(state=tk.DISABLED)
 
-    def _hide_explain(self, evt):
+    def _hide_explain(self, *args):
         self.view.explain_text.config(state=tk.NORMAL)
         self.view.explain_text.delete('1.0', tk.END)
         self.view.explain_text.config(state=tk.DISABLED)
@@ -61,17 +61,19 @@ class Controller:
         self._show(self.model.get_previous())
         self.config.save('learn', 'current', self.model.current)
 
-    def _add_to_expain(self, txt):
-        self.view.explain_text.config(state=tk.NORMAL)
-        self.view.explain_text.insert(tk.END, txt)
-        self.view.explain_text.config(state=tk.DISABLED)
-
     def _show(self, entry):
+        def explain_view(data, fun):
+            return lambda evt: fun(evt, data)
         if not entry:
             return
         self.view.word_label.config(text='%s. %s' % (entry.number, entry.word))
-        self._hide_explain(None)
-        self._add_to_expain(Explain(entry).txt())
+        explain_text = (Explain(entry).txt())
+        if self.model.is_current_a_repeat():
+            self.view.explain_text.bind("<Enter>", explain_view(explain_text, self._show_explain))
+            self.view.explain_text.bind("<Leave>", explain_view(explain_text, self._hide_explain))
+            self._hide_explain(None)
+        else:
+            self._show_explain(None, explain_text)
 
 
 class ShowingThread(threading.Thread):

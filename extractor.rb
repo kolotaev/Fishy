@@ -33,9 +33,6 @@ contents.each_line { |line|
   /(?<number>\d+)\s+(?<word>[[:graph:][:word:]]+)\s?(?<part>\w+)?(?<other>.*$)?/ui =~ line
   if number && word
     number = number.to_i
-    if number == 1056
-      p 8
-    end
     if !$data.fetch(number, nil) && number <= max_number
       $data[number] = {
         number: number,
@@ -57,9 +54,6 @@ $data.reject! { |c| c.nil? || c.empty? }
 
 # extract definitions and examples
 $data.each_with_index{ |v, i|
-  if v[:number] == 150
-    p 9
-  end
   /(?<defn>.+?)•(?<example>.*$)/mu =~ v.fetch(:other, '')
   v[:definition] = if defn
      defn.strip.gsub("\n", '"\n"')
@@ -83,7 +77,7 @@ def get_missing_translation()
   }
 end
 
-def get_data()
+def show_data()
   puts $data
 end
 
@@ -96,7 +90,7 @@ def write_csv()
   end
 end
 
-get_missing
-# get_data
+show_missing
+# show_data
+show_missing_translation
 write_csv
-get_missing_translation
