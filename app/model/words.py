@@ -14,9 +14,21 @@ class Entry:
         self.word = kwargs['word'] or None
         self.part = kwargs['part'] or None
         self.transcription = kwargs['transcription'] or None
-        self.definition = kwargs['definition'] or None
-        self.examples = kwargs['examples'] or None
-        self.picture_url = kwargs['picture'] or None
+        self._definition = kwargs['definition'] or None
+        self._examples = kwargs['examples'] or None
+        self._picture_url = kwargs['picture'] or None
+
+    @staticmethod
+    def _sanitize(data):
+        return data.replace('"\\n"', '\n')
+
+    @property
+    def definition(self):
+        return self._sanitize(self._definition)
+
+    @property
+    def examples(self):
+        return self._sanitize(self._examples)
 
 
 class WordsDatabase(metaclass=ABCMeta):

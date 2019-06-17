@@ -28,8 +28,8 @@ class Controller:
         self.view.hide_btn.config(command=view.hide)
         self.view.back_btn.config(command=self._show_previous)
         self.view.forward_btn.config(command=self._show_next)
-        self.view.explain_text.bind("<Enter>", self._hide_explain)
-        self.view.explain_text.bind("<Leave>", self._show_explain)
+        # self.view.explain_text.bind("<Enter>", self._hide_explain)
+        # self.view.explain_text.bind("<Leave>", self._show_explain)
 
     def start(self):
         self.showing_thread.start()
@@ -67,13 +67,12 @@ class Controller:
         if not entry:
             return
         self.view.word_label.config(text='%s. %s' % (entry.number, entry.word))
-        exp = """
-        [{transcription}]
-        
-        {definition}
-        
-        {examples}
-        """.format(**vars(entry))
+        exp = ''
+        if entry.transcription:
+            exp += '[%s]' % entry.transcription
+        exp += '\n%s' % entry.definition
+        exp += '\n' + '-' * 10 + '\n\n'
+        exp += '\n%s' % entry.examples
         self._hide_explain(None)
         self._add_to_expain(exp)
 

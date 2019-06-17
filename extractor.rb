@@ -28,11 +28,14 @@ fh.close
 
 previous_number = 0
 contents.each_line { |line|
-  next if line.strip!.empty?
+  next if line.strip.empty?
   # extract number, word and the rest
-  /(?<number>\d+)\s+(?<word>[[:graph:][:word:]]+)\s?(?<part>\w+)?.*?(?<other>.*$)?/ui =~ line
+  /(?<number>\d+)\s+(?<word>[[:graph:][:word:]]+)\s?(?<part>\w+)?(?<other>.*$)?/ui =~ line
   if number && word
     number = number.to_i
+    if number == 1056
+      p 8
+    end
     if !$data.fetch(number, nil) && number <= max_number
       $data[number] = {
         number: number,
@@ -50,20 +53,33 @@ contents.each_line { |line|
   end
 }
 
-$data.reject! { |c| c.nil? || c.empty?}
+$data.reject! { |c| c.nil? || c.empty? }
 
 # extract definitions and examples
 $data.each_with_index{ |v, i|
-  /(?<defn>.+?)•(?<example>.*[\.\!\?])/mu =~ v.fetch(:other, '')
+  if v[:number] == 150
+    p 9
+  end
+  /(?<defn>.+?)•(?<example>.*$)/mu =~ v.fetch(:other, '')
+  v[:definition] = if defn
+     defn.strip.gsub("\n", '"\n"')
+  else
+    v[:other].strip.gsub("\n", '"\n"')
+  end
+  v[:examples] = example.strip.gsub(/\d+,?$/, '').strip.gsub("\n", '"\n"') if example
   v.delete(:other)
-  v[:definition] = defn.strip.gsub("\n", ' ') if defn
-  v[:examples] = example.strip.gsub("\n", ' ') if example
 }
 
 
 def get_missing()
   $data.each_with_index { |v, k|
     puts k unless v
+  }
+end
+
+def get_missing_translation()
+  $data.each { |v|
+    puts v unless v[:definition]
   }
 end
 
@@ -81,5 +97,6 @@ def write_csv()
 end
 
 get_missing
-get_data
+# get_data
 write_csv
+get_missing_translation
