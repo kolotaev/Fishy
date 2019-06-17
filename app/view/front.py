@@ -1,17 +1,7 @@
 import tkinter as tk
 
 
-# explain_template = \
-# """
-# {part}
-# --------------------------
-# {definition}
-# --------------------------
-# {examples}
-# """
-
-
-class Explain:
+class ExplainText:
     def __init__(self, entry):
         self.entry = entry
 
@@ -19,8 +9,8 @@ class Explain:
         exp = self._wrap(self.entry.part)
         if self.entry.transcription:
             exp += '[%s]' % self.entry.transcription
-        exp += self._wrap(self.entry.definition)
-        exp += '\n%s' % self.entry.examples
+        exp += self._wrap(self._sanitize(self.entry.definition))
+        exp += '\n%s' % self._sanitize(self.entry.examples)
         return exp
 
     @staticmethod

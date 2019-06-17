@@ -4,7 +4,7 @@ import tkinter as tk
 
 from .configurator import Config
 from .view.root import MainFrame
-from .view.front import Explain
+from .view.front import ExplainText
 from .consts import CONF_FILE_NAME
 from .model.words import create_model
 
@@ -67,7 +67,7 @@ class Controller:
         if not entry:
             return
         self.view.word_label.config(text='%s. %s' % (entry.number, entry.word))
-        explain_text = (Explain(entry).txt())
+        explain_text = (ExplainText(entry).txt())
         if self.model.is_current_a_repeat():
             self.view.explain_text.bind("<Enter>", explain_view(explain_text, self._show_explain))
             self.view.explain_text.bind("<Leave>", explain_view(explain_text, self._hide_explain))
