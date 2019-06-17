@@ -9,15 +9,25 @@ __all__ = [
 DEFAULTS = {
     'window': {
         'resizable': 'yes',
+        'word-font-family': 'Courier',
+        'word-font-size': 22,
+        'explain-font-family': 'Courier',
+        'explain-font-size': 16,
     },
     'popup': {
+        'type': 'clock',
         'show_timeout_value': 2,
         'show_timeout_unit': 'sec',
+        'start_time': '13.00',
+        'end_time': '22.00',
     },
     'corpus': {
-        'current': 1,
-        'repeat_count': 30,
         'file_path': 'words.csv'
+    },
+    'learn': {
+        'current': 1,
+        'words-per-day': 30,
+        'words-repeat': 30,
     }
 }
 
@@ -40,6 +50,7 @@ class Config(ConfigParser):
                 default_config['window'] = DEFAULTS['window']
                 default_config['popup'] = DEFAULTS['popup']
                 default_config['corpus'] = DEFAULTS['corpus']
+                default_config['learn'] = DEFAULTS['learn']
                 default_config.write(configfile)
         else:
             print('file already exists')

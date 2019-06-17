@@ -12,7 +12,7 @@ class Entry:
     def __init__(self, **kwargs):
         self.number = kwargs['number'] or None
         self.word = kwargs['word'] or None
-        self.part = kwargs['part'] or None
+        self._part = kwargs['part'] or None
         self.transcription = kwargs['transcription'] or None
         self._definition = kwargs['definition'] or None
         self._examples = kwargs['examples'] or None
@@ -20,7 +20,13 @@ class Entry:
 
     @staticmethod
     def _sanitize(data):
+        if data is None:
+            data = ''
         return str(data).replace('"\\n"', '\n')
+
+    @property
+    def part(self):
+        return self._sanitize(self._part)
 
     @property
     def definition(self):
@@ -52,11 +58,11 @@ class CsvFileWords(WordsDatabase):
     """
     def __init__(self, config):
         self.config = config
-        self._current = self.config.getint('corpus', 'current')
+        self._current = self.config.getint('learn', 'current')
         file = os.path.expanduser(self.config.get('corpus', 'file_path'))
         self.db = {}
         if not os.path.exists(file):
-            raise Exception('File does not exist')
+            raise Exception('CSV file "%s" with corpus does not exist' % file)
         with open(file) as csv_data_file:
             dialect = csv.Sniffer().sniff(csv_data_file.read(1024))
             csv_data_file.seek(0)

@@ -54,11 +54,11 @@ class Controller:
 
     def _show_next(self):
         self._show(self.model.get_next())
-        self.config.save('corpus', 'current', self.model.current)
+        self.config.save('learn', 'current', self.model.current)
 
     def _show_previous(self):
         self._show(self.model.get_previous())
-        self.config.save('corpus', 'current', self.model.current)
+        self.config.save('learn', 'current', self.model.current)
 
     def _add_to_expain(self, txt):
         self.view.explain_text.config(state=tk.NORMAL)
@@ -66,16 +66,15 @@ class Controller:
         self.view.explain_text.config(state=tk.DISABLED)
 
     def _show(self, entry):
+        def wrap(w):
+            return '\n%s\n\n' % w + '-' * 30 + '\n\n'
         if not entry:
             return
         self.view.word_label.config(text='%s. %s' % (entry.number, entry.word))
-        exp = ''
-        exp += '\n%s' % entry.part
-        exp += '\n\n' + '-' * 10 + '\n\n'
+        exp = wrap(entry.part)
         if entry.transcription:
             exp += '[%s]' % entry.transcription
-        exp += '\n%s' % entry.definition
-        exp += '\n\n' + '-' * 10 + '\n\n'
+        exp += wrap(entry.definition)
         exp += '\n%s' % entry.examples
         self._hide_explain(None)
         self._add_to_expain(exp)
