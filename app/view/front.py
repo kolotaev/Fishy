@@ -1,6 +1,39 @@
 import tkinter as tk
 
 
+# explain_template = \
+# """
+# {part}
+# --------------------------
+# {definition}
+# --------------------------
+# {examples}
+# """
+
+
+class Explain:
+    def __init__(self, entry):
+        self.entry = entry
+
+    def txt(self):
+        exp = self._wrap(self.entry.part)
+        if self.entry.transcription:
+            exp += '[%s]' % self.entry.transcription
+        exp += self._wrap(self.entry.definition)
+        exp += '\n%s' % self.entry.examples
+        return exp
+
+    @staticmethod
+    def _sanitize(data):
+        if data is None:
+            data = ''
+        return str(data).replace('"\\n"', '\n')
+
+    @staticmethod
+    def _wrap(word):
+        return '\n%s\n\n' % word + '-' * 30 + '\n\n'
+
+
 class Front:
     """
     Contains all the elements of learning: word, explanation.

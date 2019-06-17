@@ -4,6 +4,7 @@ import tkinter as tk
 
 from .configurator import Config
 from .view.root import MainFrame
+from .view.front import Explain
 from .consts import CONF_FILE_NAME
 from .model.words import create_model
 
@@ -66,18 +67,11 @@ class Controller:
         self.view.explain_text.config(state=tk.DISABLED)
 
     def _show(self, entry):
-        def wrap(w):
-            return '\n%s\n\n' % w + '-' * 30 + '\n\n'
         if not entry:
             return
         self.view.word_label.config(text='%s. %s' % (entry.number, entry.word))
-        exp = wrap(entry.part)
-        if entry.transcription:
-            exp += '[%s]' % entry.transcription
-        exp += wrap(entry.definition)
-        exp += '\n%s' % entry.examples
         self._hide_explain(None)
-        self._add_to_expain(exp)
+        self._add_to_expain(Explain(entry).txt())
 
 
 class ShowingThread(threading.Thread):
