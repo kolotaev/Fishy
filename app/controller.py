@@ -74,6 +74,8 @@ class Controller:
             self.view.explain_text.bind("<Leave>", explain_view(explain_text, self._hide_explain))
             self._hide_explain(None)
         else:
+            self.view.explain_text.unbind("<Enter>")
+            self.view.explain_text.unbind("<Leave>")
             self._show_explain(None, explain_text)
 
 

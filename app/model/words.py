@@ -72,4 +72,5 @@ class CsvFileWords(WordsDatabase):
         return self.get_current()
 
     def is_current_a_repeat(self):
-        return True
+        if self.current % 2 == 0:
+            return True
