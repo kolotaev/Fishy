@@ -4,7 +4,7 @@ import platform
 
 class Menu:
     def __init__(self, root):
-        self.pw = root
+        self.pw = root.win
         menubar = tk.Menu(self.pw)
         if platform.system() == 'Darwin':
             appmenu = tk.Menu(menubar, name='apple')
@@ -13,6 +13,7 @@ class Menu:
             appmenu.add_separator()
             self.pw.createcommand('tk::mac::ShowPreferences', lambda: print('Not yet implemented'))
         window_menu = tk.Menu(menubar, name='window')
+        window_menu.add_command(label='Show', command=root.show)
         menubar.add_cascade(menu=window_menu, label='Window')
         self.menubar = menubar
 

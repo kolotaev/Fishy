@@ -8,6 +8,7 @@ __all__ = [
 
 DEFAULTS = {
     'window': {
+        'initial-size': '800x600',
         'resizable': 'yes',
         'word-font-family': 'Courier',
         'word-font-size': 22,

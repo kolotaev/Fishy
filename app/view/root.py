@@ -12,14 +12,15 @@ class MainFrame:
         self.win = tk.Tk()
         self._configure()
         Front(self, config).add()
-        Menu(self.win).add()
+        Menu(self).add()
         MainIcon(self.win).add()
 
     def show(self):
-        self.win.update()
-        self.win.deiconify()
-        self._center()
-        self._focus()
+        if self.is_alive:
+            self.win.update()
+            self.win.deiconify()
+            self._center()
+            self._focus()
 
     def hide(self):
         self.win.overrideredirect(1)
@@ -42,7 +43,8 @@ class MainFrame:
         self.win.title(NAME)
         if not self.config.getboolean('window', 'resizable'):
             self.win.resizable(0, 0)
-        self.win.geometry(GEOMETRY)
+        geometry = self.config.get('window', 'initial-size') or GEOMETRY
+        self.win.geometry(geometry)
 
     def _center(self):
         self.win.update_idletasks()
