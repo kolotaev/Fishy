@@ -1,11 +1,12 @@
 import threading
 import os.path
 import tkinter as tk
+from datetime import datetime
 
 from .configurator import Config
 from .view.root import MainFrame
 from .view.front import ExplainText
-from .consts import CONF_FILE_NAME
+from .consts import CONF_FILE_NAME, TIME_FORMAT
 from .model.words import create_model
 
 
@@ -90,10 +91,22 @@ class ShowingThread(threading.Thread):
             while not self.stop.wait(0):
                 self._running_flag = True
                 print('Waiting for %d secs...' % timeout)
-                self.win.show()
+                if self.within_allowed_time():
+                    self.win.show()
                 self.stop.wait(timeout)
         finally:
             self._running_flag = False
 
     def terminate(self):
         self.stop.set()
+
+    def within_allowed_time(self):
+        start_time_str = self.config.get('popup', 'start_time')
+        start_time = datetime.strptime(start_time_str, TIME_FORMAT).time()
+        end_time_str = self.config.get('popup', 'end_time')
+        end_time = datetime.strptime(end_time_str, TIME_FORMAT).time()
+        return start_time <= self._current_time() <= end_time
+
+    @staticmethod
+    def _current_time():
+        return datetime.today().time()

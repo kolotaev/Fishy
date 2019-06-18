@@ -16,9 +16,9 @@ DEFAULTS = {
         'explain-font-size': 16,
     },
     'popup': {
-        'type': 'clock',
-        'show_timeout_value': 2,
-        'show_timeout_unit': 'sec',
+        # 'type': 'clock',
+        'show_timeout_value': 30,
+        'show_timeout_unit': 'min',
         'start_time': '13.00',
         'end_time': '22.00',
     },
@@ -27,7 +27,7 @@ DEFAULTS = {
     },
     'learn': {
         'current': 1,
-        'words-per-day': 30,
+        # 'words-per-day': 30,
         'words-repeat': 30,
     }
 }
