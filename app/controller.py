@@ -38,7 +38,6 @@ class Controller:
         self.view.loop()
 
     def stop(self):
-        print('killing...')
         self.showing_thread.terminate()
 
     def _show_explain(self, evt, txt=None):
@@ -92,7 +91,6 @@ class ShowingThread(threading.Thread):
         try:
             while not self.stop.wait(0):
                 self._running_flag = True
-                print('Waiting for %d secs...' % timeout)
                 if self.within_allowed_time():
                     self.win.show()
                 self.stop.wait(timeout)

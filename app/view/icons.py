@@ -9,8 +9,5 @@ class MainIcon:
 
     def add(self):
         system = platform.system()
-        try:
-            if system == 'Darwin':
-                self.root.wm_iconbitmap(ICON_PATH)
-        except Exception as e:
-            print(e)
+        if system == 'Darwin':
+            self.root.wm_iconbitmap(ICON_PATH)

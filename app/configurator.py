@@ -53,8 +53,6 @@ class Config(ConfigParser):
                 default_config['corpus'] = DEFAULTS['corpus']
                 default_config['learn'] = DEFAULTS['learn']
                 default_config.write(configfile)
-        else:
-            print('file already exists')
 
     def get_show_timeout(self):
         timeout_unit = self.get('popup', 'show_timeout_unit')
