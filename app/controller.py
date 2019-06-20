@@ -2,6 +2,7 @@ import threading
 import os.path
 import tkinter as tk
 from datetime import datetime
+import atexit
 
 from .configurator import Config
 from .view.root import MainFrame
@@ -30,6 +31,7 @@ class Controller:
         self.view.hide_btn.config(command=view.hide)
         self.view.back_btn.config(command=self._show_previous)
         self.view.forward_btn.config(command=self._show_next)
+        atexit.register(self.model.save)
 
     def start(self):
         self.showing_thread.start()
@@ -55,11 +57,9 @@ class Controller:
 
     def _show_next(self):
         self._show(self.model.get_next())
-        self.config.save('learn', 'current', self.model.current)
 
     def _show_previous(self):
         self._show(self.model.get_previous())
-        self.config.save('learn', 'current', self.model.current)
 
     def _show(self, entry):
         def explain_view(data, fun):

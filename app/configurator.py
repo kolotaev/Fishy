@@ -23,12 +23,17 @@ DEFAULTS = {
         'end_time': '22.00',
     },
     'corpus': {
-        'file_path': 'words.csv'
+        'file_path': 'words.csv',
     },
     'learn': {
-        'current': 1,
         # 'words-per-day': 30,
         'words-repeat': 30,
+        'repeat-intensity': 3,
+        'repeat-strategy': 'long-circles',
+    },
+    'run': {
+        'current-pointer': 1,
+        'repeat-counter': 0,
     }
 }
 
@@ -52,6 +57,7 @@ class Config(ConfigParser):
                 default_config['popup'] = DEFAULTS['popup']
                 default_config['corpus'] = DEFAULTS['corpus']
                 default_config['learn'] = DEFAULTS['learn']
+                default_config['run'] = DEFAULTS['run']
                 default_config.write(configfile)
 
     def get_show_timeout(self):

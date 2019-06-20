@@ -23,7 +23,7 @@ Name comes from, you guess it, [this little fishy](https://en.wikipedia.org/wiki
 * Run `make install`
 * Create CSV file with words in the aforementioned format and put it somewhere
 * Modify path to file in config `$HOME/.fishy_app.cnf`
-* Run `fishy`
+* Run `fishy` (Or `fishy &` to free console)
 
 
 ## Development
