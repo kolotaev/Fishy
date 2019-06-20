@@ -1,4 +1,3 @@
-from abc import ABCMeta
 import csv
 import os.path
 
@@ -21,40 +20,14 @@ class Entry:
         self.picture_url = kwargs['picture'] or None
 
 
-class WordsDatabase(metaclass=ABCMeta):
-    def get_current(self):
-        pass
-
-    def get_next(self):
-        pass
-
-    def get_previous(self):
-        pass
-
-
-class CsvFileWords(WordsDatabase):
-    """
-    Takes words from a database file.
-    Saves current word position into config file.
-    """
+class WordsDatabase:
     def __init__(self, config):
         self.config = config
         self._current = self.config.getint('run', 'current-pointer')
         self._repeat_counter = self.config.getint('run', 'repeat-counter')
         self.repeat_intensity = self.config.getint('learn', 'repeat-intensity')
         self.repeat_strategy = create_strategy(config)
-        file = os.path.expanduser(self.config.get('corpus', 'file_path'))
         self.db = {}
-        if not os.path.exists(file):
-            raise Exception('CSV file "%s" with corpus does not exist' % file)
-        with open(file) as csv_data_file:
-            dialect = csv.Sniffer().sniff(csv_data_file.read(1024))
-            csv_data_file.seek(0)
-            csv_reader = csv.DictReader(csv_data_file, dialect=dialect)
-            for row in csv_reader:
-                num = int(row['number'])
-                self.db[num] = Entry(**row)
-                self._max = num
 
     def get_current(self):
         return self._get_word_by_number(self._current)
@@ -66,7 +39,7 @@ class CsvFileWords(WordsDatabase):
             return self._get_word_by_number(next_repeat)
         else:
             self._repeat_counter = 0
-        if self._current < self._max:
+        if self._current < len(self.db):
             self._current += 1
         return self.get_current()
 
@@ -87,3 +60,22 @@ class CsvFileWords(WordsDatabase):
 
     def _get_word_by_number(self, number):
         return self.db.get(number)
+
+
+class CsvFileWords(WordsDatabase):
+    """
+    Takes words from a database file.
+    Saves current word position into config file.
+    """
+    def __init__(self, config):
+        super().__init__(config)
+        file = os.path.expanduser(self.config.get('corpus', 'file_path'))
+        if not os.path.exists(file):
+            raise Exception('CSV file "%s" with corpus does not exist' % file)
+        with open(file) as csv_data_file:
+            dialect = csv.Sniffer().sniff(csv_data_file.read(1024))
+            csv_data_file.seek(0)
+            csv_reader = csv.DictReader(csv_data_file, dialect=dialect)
+            for row in csv_reader:
+                num = int(row['number'])
+                self.db[num] = Entry(**row)
