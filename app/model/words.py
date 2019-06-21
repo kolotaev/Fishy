@@ -21,10 +21,15 @@ class Entry:
 
 
 class WordsDatabase:
+    """
+    Takes words from a database.
+    Saves current word position into config file.
+    Class should be overridden to get words from a proper database
+    """
     def __init__(self, config):
         self.config = config
-        self._current = self.config.getint('run', 'current-pointer')
-        self._repeat_counter = self.config.getint('run', 'repeat-counter')
+        self._current = self.config.getint('run', 'current-pointer', fallback=1)
+        self._repeat_counter = self.config.getint('run', 'repeat-counter', fallback=0)
         self.repeat_intensity = self.config.getint('learn', 'repeat-intensity')
         self.repeat_strategy = create_strategy(config)
         self.db = {}
@@ -64,8 +69,7 @@ class WordsDatabase:
 
 class CsvFileWords(WordsDatabase):
     """
-    Takes words from a database file.
-    Saves current word position into config file.
+    CSV file database
     """
     def __init__(self, config):
         super().__init__(config)

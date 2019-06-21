@@ -1,4 +1,4 @@
-from configparser import ConfigParser
+from configparser import ConfigParser, NoSectionError
 from os.path import exists
 
 
@@ -29,7 +29,7 @@ DEFAULTS = {
         # 'words-per-day': 30,
         'words-repeat': 30,
         'repeat-intensity': 3,
-        'repeat-strategy': 'long-circles',
+        'repeat-strategy': 'long-steps-back',
     },
     'run': {
         'current-pointer': 1,
@@ -48,6 +48,10 @@ class Config(ConfigParser):
         if self.create:
             self.create_if_missing()
         self.read(self.path)
+        try:
+            self.getint('run', 'current-pointer')
+        except NoSectionError:
+            self.add_section('run')
 
     def create_if_missing(self):
         if not exists(self.path):
