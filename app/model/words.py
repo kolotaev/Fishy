@@ -49,6 +49,10 @@ class WordsDatabase:
         return self.get_current()
 
     def get_previous(self):
+        if self._is_repeat() and self._repeat_counter > 0:
+            self._repeat_counter -= 1
+            next_repeat = self.repeat_strategy.next(self._current, self._repeat_counter)
+            return self._get_word_by_number(next_repeat)
         if self._current > 1:
             self._current -= 1
         return self.get_current()

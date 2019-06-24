@@ -6,7 +6,7 @@ if __name__ == '__main__':
         name='Fishy',
         description='GUI app for learning word corpus',
         keywords='ACL ABAC access-control policy security authorization permission',
-        version='1.0.0',
+        version='1.0.1',
         author='Egor Kolotaev',
         author_email='ekolotaev@gmail.com',
         license="MIT",
