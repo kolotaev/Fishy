@@ -65,13 +65,13 @@ $data.each_with_index{ |v, i|
 }
 
 
-def get_missing()
+def show_missing()
   $data.each_with_index { |v, k|
     puts k unless v
   }
 end
 
-def get_missing_translation()
+def show_missing_translation()
   $data.each { |v|
     puts v unless v[:definition]
   }

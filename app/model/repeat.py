@@ -1,4 +1,5 @@
 from abc import ABCMeta
+from random import randint
 
 
 def create_strategy(config):
@@ -37,9 +38,10 @@ class LongStepsBackStrategy(Strategy):
     words-repeat = 30
     repeat-intensity = 3
     next gives: 670, 640, 610
+    If step gives less than 0 -> returns random pointer till current position.
     """
     def next(self, current, repeat_counter):
         step_back_word_pointer = current - self.repeat_words * repeat_counter
         if step_back_word_pointer > 0:
             return step_back_word_pointer
-        return abs(step_back_word_pointer)
+        return randint(1, current-1)
