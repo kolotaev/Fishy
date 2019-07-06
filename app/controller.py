@@ -9,6 +9,7 @@ from .view.root import MainFrame
 from .view.front import ExplainText
 from .consts import CONF_FILE_NAME, TIME_FORMAT
 from .model.words import create_model
+from .providers.speech import GoogleTTS
 
 
 class Application:
@@ -27,10 +28,13 @@ class Controller:
         self.view = view
         self.config = config
         self.view.on_close(self.stop)
+        # currently hardcode GoogleTTS
+        self.speech_provider = GoogleTTS()
         self.showing_thread = ShowingThread(view, self.config)
         self.view.hide_btn.config(command=view.hide)
         self.view.back_btn.config(command=self._show_previous)
         self.view.forward_btn.config(command=self._show_next)
+        self.view.speak_btn.config(command=self._speak_current)
         atexit.register(self.model.save)
 
     def start(self):
@@ -76,6 +80,10 @@ class Controller:
             self.view.explain_text.unbind("<Enter>")
             self.view.explain_text.unbind("<Leave>")
             self._show_explain(None, explain_text)
+
+    def _speak_current(self):
+        word = self.model.get_current().word
+        self.speech_provider.speak(word, 'de')
 
 
 class ShowingThread(threading.Thread):

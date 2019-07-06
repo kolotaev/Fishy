@@ -20,6 +20,7 @@ Name comes from, you guess it, [this little fishy](https://en.wikipedia.org/wiki
 
 ## Usage
 
+* Install [SoX](http://sox.sourceforge.net), with MP3 support.
 * Clone repository
 * `cd Fishy`
 * Run `make install`

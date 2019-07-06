@@ -19,7 +19,9 @@ if __name__ == '__main__':
         },
         py_modules=['app', 'resources', 'main'],
         python_requires='>=3.6',
-        install_requires=[],
+        install_requires=[
+            'google_speech',
+        ],
         extras_require={},
         packages=find_packages(exclude='tests'),
         classifiers=[],
