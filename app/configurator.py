@@ -24,6 +24,9 @@ DEFAULTS = {
     },
     'corpus': {
         'file_path': 'words.csv',
+        'language': 'de',
+        'additional-translate-to-lang': 'ru',
+        'speech-provider': 'google',
     },
     'learn': {
         # 'words-per-day': 30,

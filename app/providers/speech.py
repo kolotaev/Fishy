@@ -1,13 +1,24 @@
 from abc import ABCMeta
 
+from ..util import sanitize
+
+
+def create_speech_provider(config):
+    # currently we have only one provider
+    return GoogleTTS(config)
+
 
 class SpeechProvider(metaclass=ABCMeta):
+    def __init__(self, config):
+        self.language = config.get('corpus', 'language')
+
     def speak(self, text, lang, **kwargs):
         pass
 
 
 class GoogleTTS(SpeechProvider):
-    def __init__(self):
+    def __init__(self, config):
+        super().__init__(config)
         try:
             from google_speech import Speech
             self.speech = Speech
@@ -15,5 +26,8 @@ class GoogleTTS(SpeechProvider):
             print('Please install "sox" to use Google TTS')
             exit(1)
 
-    def speak(self, text, lang, **kwargs):
+    def speak(self, text, lang=None, **kwargs):
+        if not lang:
+            lang = self.language
+        text = sanitize(text)
         self.speech(text, lang).play()

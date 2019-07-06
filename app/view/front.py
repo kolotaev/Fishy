@@ -1,5 +1,7 @@
 import tkinter as tk
 
+from ..util import sanitize
+
 
 class ExplainText:
     def __init__(self, entry):
@@ -9,15 +11,9 @@ class ExplainText:
         exp = self._wrap(self.entry.part)
         if self.entry.transcription:
             exp += '[%s]' % self.entry.transcription
-        exp += self._wrap(self._sanitize(self.entry.definition))
-        exp += '\n%s' % self._sanitize(self.entry.examples)
+        exp += self._wrap(sanitize(self.entry.definition))
+        exp += '\n%s' % sanitize(self.entry.examples)
         return exp
-
-    @staticmethod
-    def _sanitize(data):
-        if data is None:
-            data = ''
-        return str(data).replace('"\\n"', '\n')
 
     @staticmethod
     def _wrap(word):
@@ -65,15 +61,18 @@ class Front:
         hide_btn = tk.Button(controls_frame, width=10, text='Hide')
         back_btn = tk.Button(controls_frame, width=10, text='<<')
         forward_btn = tk.Button(controls_frame, width=10, text='>>')
-        speak_btn = tk.Button(controls_frame, width=10, text='((*))')
+        speak_btn_one = tk.Button(controls_frame, width=10, text='(*)')
+        speak_btn_all = tk.Button(controls_frame, width=10, text='((*))')
         # pack buttons
         hide_btn.pack(side=tk.BOTTOM, pady=0, padx=10)
-        speak_btn.pack(side=tk.BOTTOM, pady=0, padx=10)
         back_btn.pack(side=tk.LEFT, pady=0, padx=10)
+        speak_btn_one.pack(side=tk.LEFT, pady=0, padx=10)
+        speak_btn_all.pack(side=tk.LEFT, pady=0, padx=10)
         forward_btn.pack(side=tk.RIGHT, pady=0, padx=10)
         controls_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         # expose controls to main view
         self.app.hide_btn = hide_btn
         self.app.back_btn = back_btn
         self.app.forward_btn = forward_btn
-        self.app.speak_btn = speak_btn
+        self.app.speak_btn_one = speak_btn_one
+        self.app.speak_btn_all = speak_btn_all
