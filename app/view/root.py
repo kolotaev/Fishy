@@ -4,6 +4,7 @@ from ..consts import NAME, GEOMETRY
 from .front import Front
 from .menu import Menu
 from .icons import MainIcon
+from .modal import ModalBox
 
 
 class MainFrame:
@@ -14,6 +15,7 @@ class MainFrame:
         Front(self, config).add()
         Menu(self).add()
         MainIcon(self.win).add()
+        self.modal = ModalBox(self)
 
     def show(self):
         if self.is_alive:
@@ -39,6 +41,13 @@ class MainFrame:
             self.win.destroy()
         self.win.protocol('WM_DELETE_WINDOW', kill)
 
+    def get_dimensions(self):
+        width = self.win.winfo_width()
+        height = self.win.winfo_height()
+        x = (self.win.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.win.winfo_screenheight() // 2) - (height // 2)
+        return width, height, x, y
+
     def _configure(self):
         self.win.title(NAME)
         if not self.config.getboolean('window', 'resizable'):
@@ -48,13 +57,10 @@ class MainFrame:
 
     def _center(self):
         self.win.update_idletasks()
-        width = self.win.winfo_width()
-        height = self.win.winfo_height()
-        x = (self.win.winfo_screenwidth() // 2) - (width // 2)
-        y = (self.win.winfo_screenheight() // 2) - (height // 2)
+        width, height, x, y = self.get_dimensions()
         self.win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
     def _focus(self):
         self.win.lift()
-        self.win.attributes("-topmost", True)
+        self.win.attributes('-topmost', True)
         self.win.bind("<FocusIn>", lambda event: self.win.focus_set() if event.widget == self.win else 0)
