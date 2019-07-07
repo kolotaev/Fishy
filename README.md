@@ -47,6 +47,9 @@ end_time = 22.00
 
 [corpus]
 file_path = /path/to/french-words-db.csv
+language = de
+additional-translate-to-lang = ru
+speech-provider = google
 
 [learn]
 words-repeat = 30

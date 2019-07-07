@@ -21,6 +21,7 @@ if __name__ == '__main__':
         python_requires='>=3.6',
         install_requires=[
             'google_speech',
+            'googletrans',
         ],
         extras_require={},
         packages=find_packages(exclude='tests'),

@@ -63,11 +63,15 @@ class Front:
         forward_btn = tk.Button(controls_frame, width=10, text='>>')
         speak_btn_one = tk.Button(controls_frame, width=10, text='(*)')
         speak_btn_all = tk.Button(controls_frame, width=10, text='((*))')
+        additional_translate_btn_one = tk.Button(controls_frame, width=10, text='tr w')
+        additional_translate_btn_all = tk.Button(controls_frame, width=10, text='tr all')
         # pack buttons
         hide_btn.pack(side=tk.BOTTOM, pady=0, padx=10)
         back_btn.pack(side=tk.LEFT, pady=0, padx=10)
         speak_btn_one.pack(side=tk.LEFT, pady=0, padx=10)
         speak_btn_all.pack(side=tk.LEFT, pady=0, padx=10)
+        additional_translate_btn_one.pack(side=tk.LEFT, pady=0, padx=10)
+        additional_translate_btn_all.pack(side=tk.LEFT, pady=0, padx=10)
         forward_btn.pack(side=tk.RIGHT, pady=0, padx=10)
         controls_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         # expose controls to main view
@@ -76,3 +80,5 @@ class Front:
         self.app.forward_btn = forward_btn
         self.app.speak_btn_one = speak_btn_one
         self.app.speak_btn_all = speak_btn_all
+        self.app.additional_translate_btn_one = additional_translate_btn_one
+        self.app.additional_translate_btn_all = additional_translate_btn_all

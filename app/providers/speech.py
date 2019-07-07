@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
 
 from ..util import sanitize
 
@@ -12,6 +12,7 @@ class SpeechProvider(metaclass=ABCMeta):
     def __init__(self, config):
         self.language = config.get('corpus', 'language')
 
+    @abstractmethod
     def speak(self, text, lang, **kwargs):
         pass
 

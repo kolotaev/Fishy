@@ -10,6 +10,7 @@ from .view.front import ExplainText
 from .consts import CONF_FILE_NAME, TIME_FORMAT
 from .model.words import create_model
 from .providers.speech import create_speech_provider
+from .providers.translation import create_translation_provider
 
 
 class Application:
@@ -22,24 +23,28 @@ class Application:
             create_model(conf),
             MainFrame(conf),
             create_speech_provider(conf),
+            create_translation_provider(conf),
             conf
         )
         controller.start()
 
 
 class Controller:
-    def __init__(self, model, view, speech_provider, config):
+    def __init__(self, model, view, speech_provider, translation_provider, config):
         self.model = model
         self.view = view
         self.config = config
         self.view.on_close(self.stop)
         self.speech_provider = speech_provider
+        self.translation_provider = translation_provider
         self.showing_thread = ShowingThread(view, self.config)
         self.view.hide_btn.config(command=view.hide)
         self.view.back_btn.config(command=self._show_previous)
         self.view.forward_btn.config(command=self._show_next)
         self.view.speak_btn_one.config(command=self._speak_current_word)
         self.view.speak_btn_all.config(command=self._speak_current_definition)
+        self.view.additional_translate_btn_one.config(command=self.view.modal.show)
+        self.view.additional_translate_btn_all.config(command=self._additional_translate_current_definition)
         atexit.register(self.model.save)
 
     def start(self):
@@ -93,6 +98,16 @@ class Controller:
     def _speak_current_definition(self):
         text = self.model.get_current().definition + self.model.get_current().examples
         self.speech_provider.speak(text)
+
+    def _additional_translate_current_word(self):
+        word = self.model.get_current().word
+        tr = self.translation_provider.translate(word)
+        self._show_explain(None, "\n" + tr + "\n")
+
+    def _additional_translate_current_definition(self):
+        text = self.model.get_current().definition + self.model.get_current().examples
+        tr = self.translation_provider.translate(text)
+        self._show_explain(None, "\n" + tr + "\n")
 
 
 class ShowingThread(threading.Thread):
