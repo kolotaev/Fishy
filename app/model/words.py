@@ -20,6 +20,7 @@ class Entry:
         self.picture_url = kwargs['picture'] or None
 
 
+# todo - get translations from provider
 class WordsDatabase:
     """
     Takes words from a database.

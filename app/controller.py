@@ -43,8 +43,8 @@ class Controller:
         self.view.forward_btn.config(command=self._show_next)
         self.view.speak_btn_one.config(command=self._speak_current_word)
         self.view.speak_btn_all.config(command=self._speak_current_definition)
-        self.view.additional_translate_btn_one.config(command=self.view.modal.show)
-        self.view.additional_translate_btn_all.config(command=self._additional_translate_current_definition)
+        self.view.additional_translate_btn_one.config(command=self._show_additional_translate_current_word)
+        self.view.additional_translate_btn_all.config(command=self._show_additional_translate_current_definition)
         atexit.register(self.model.save)
 
     def start(self):
@@ -99,15 +99,15 @@ class Controller:
         text = self.model.get_current().definition + self.model.get_current().examples
         self.speech_provider.speak(text)
 
-    def _additional_translate_current_word(self):
+    def _show_additional_translate_current_word(self):
         word = self.model.get_current().word
         tr = self.translation_provider.translate(word)
-        self._show_explain(None, "\n" + tr + "\n")
+        self.view.modal.show(word, tr)
 
-    def _additional_translate_current_definition(self):
-        text = self.model.get_current().definition + self.model.get_current().examples
+    def _show_additional_translate_current_definition(self):
+        text = self.model.get_current().definition + '\n' + self.model.get_current().examples
         tr = self.translation_provider.translate(text)
-        self._show_explain(None, "\n" + tr + "\n")
+        self.view.modal.show(text, tr)
 
 
 class ShowingThread(threading.Thread):
