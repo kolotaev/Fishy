@@ -1,7 +1,5 @@
 from abc import ABCMeta, abstractmethod
 
-from ..util import sanitize
-
 
 def create_speech_provider(config):
     # currently we have only one provider
@@ -30,5 +28,4 @@ class GoogleTTS(SpeechProvider):
     def speak(self, text, lang=None, **kwargs):
         if not lang:
             lang = self.language
-        text = sanitize(text)
         self.speech(text, lang).play()

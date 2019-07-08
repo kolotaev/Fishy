@@ -2,8 +2,6 @@ from abc import ABCMeta, abstractmethod
 
 from googletrans import Translator
 
-from ..util import sanitize
-
 
 def create_translation_provider(config):
     # currently we have only one provider
@@ -30,6 +28,5 @@ class GoogleTranslate(TranslateProvider):
             from_lang = self.from_language
         if not to_lang:
             to_lang = self.to_language
-        text = sanitize(text)
         tt = self.translator.translate(text, src=from_lang, dest=to_lang)
         return tt.text

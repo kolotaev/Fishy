@@ -2,6 +2,7 @@ import csv
 import os.path
 
 from .repeat import create_strategy
+from ..util import sanitize
 
 
 def create_model(config):
@@ -88,4 +89,6 @@ class CsvFileWords(WordsDatabase):
             csv_reader = csv.DictReader(csv_data_file, dialect=dialect)
             for row in csv_reader:
                 num = int(row['number'])
+                row['examples'] = sanitize(row['examples'])
+                row['definition'] = sanitize(row['definition'])
                 self.db[num] = Entry(**row)

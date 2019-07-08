@@ -1,7 +1,5 @@
 import tkinter as tk
 
-from ..util import sanitize
-
 
 class ExplainText:
     def __init__(self, entry):
@@ -11,8 +9,8 @@ class ExplainText:
         exp = self._wrap(self.entry.part)
         if self.entry.transcription:
             exp += '[%s]' % self.entry.transcription
-        exp += self._wrap(sanitize(self.entry.definition))
-        exp += '\n%s' % sanitize(self.entry.examples)
+        exp += self._wrap(self.entry.definition)
+        exp += '\n%s' % self.entry.examples
         return exp
 
     @staticmethod

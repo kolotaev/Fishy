@@ -5,8 +5,8 @@ if __name__ == '__main__':
     setup(
         name='Fishy',
         description='GUI app for learning word corpus',
-        keywords='ACL ABAC access-control policy security authorization permission',
-        version='1.0.2',
+        keywords='Learning languages',
+        version='1.1.0',
         author='Egor Kolotaev',
         author_email='ekolotaev@gmail.com',
         license="MIT",
