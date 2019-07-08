@@ -68,8 +68,8 @@ class Front:
         # pack buttons
         hide_btn.pack(side=tk.BOTTOM, pady=0, padx=10)
         back_btn.pack(side=tk.LEFT, pady=0, padx=10)
-        speak_btn_one.pack(side=tk.LEFT, pady=0, padx=10)
         speak_btn_all.pack(side=tk.LEFT, pady=0, padx=10)
+        speak_btn_one.pack(side=tk.LEFT, pady=0, padx=10)
         additional_translate_btn_one.pack(side=tk.LEFT, pady=0, padx=10)
         additional_translate_btn_all.pack(side=tk.LEFT, pady=0, padx=10)
         forward_btn.pack(side=tk.RIGHT, pady=0, padx=10)

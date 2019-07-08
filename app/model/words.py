@@ -29,6 +29,7 @@ class WordsDatabase:
     """
     def __init__(self, config):
         self.config = config
+        self._new_learn = self.config.getint('run', 'new-word-pointer', fallback=1)
         self._current = self.config.getint('run', 'current-pointer', fallback=1)
         self._repeat_counter = self.config.getint('run', 'repeat-counter', fallback=0)
         self.repeat_intensity = self.config.getint('learn', 'repeat-intensity')
@@ -36,39 +37,39 @@ class WordsDatabase:
         self.db = {}
 
     def get_current(self):
-        return self._get_word_by_number(self._current)
+        return self._entry_by_number(self._current)
 
     def get_next(self):
         if self._is_repeat():
             self._repeat_counter += 1
-            next_repeat = self.repeat_strategy.next(self._current, self._repeat_counter)
-            return self._get_word_by_number(next_repeat)
-        else:
+            self._current = self.repeat_strategy.next(self._new_learn, self._repeat_counter)
+        elif self._current < len(self.db):
             self._repeat_counter = 0
-        if self._current < len(self.db):
-            self._current += 1
+            self._new_learn += 1
+            self._current = self._new_learn
         return self.get_current()
 
     def get_previous(self):
         if self._is_repeat() and self._repeat_counter > 0:
             self._repeat_counter -= 1
-            next_repeat = self.repeat_strategy.next(self._current, self._repeat_counter)
-            return self._get_word_by_number(next_repeat)
-        if self._current > 1:
-            self._current -= 1
+            self._current = self.repeat_strategy.next(self._new_learn, self._repeat_counter)
+        elif self._current >= 0:
+            self._new_learn -= 1
+            self._current = self._new_learn
         return self.get_current()
 
     def is_current_a_repeat(self):
         return self._repeat_counter != 0
 
     def save(self):
+        self.config.save('run', 'new-word-pointer', self._new_learn)
         self.config.save('run', 'current-pointer', self._current)
         self.config.save('run', 'repeat-counter', self._repeat_counter)
 
     def _is_repeat(self):
         return self._repeat_counter < self.repeat_intensity
 
-    def _get_word_by_number(self, number):
+    def _entry_by_number(self, number):
         return self.db.get(number)
 
 

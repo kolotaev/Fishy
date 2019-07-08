@@ -63,4 +63,4 @@ class MainFrame:
     def _focus(self):
         self.win.lift()
         self.win.attributes('-topmost', True)
-        self.win.bind("<FocusIn>", lambda event: self.win.focus_set() if event.widget == self.win else 0)
+        self.win.bind('<FocusIn>', lambda event: self.win.focus_set() if event.widget == self.win else 0)

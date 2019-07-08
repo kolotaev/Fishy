@@ -58,6 +58,7 @@ repeat-strategy = long-steps-back
 
 [run]
 current-pointer = 1
+new-word-pointer = 1
 repeat-counter = 0
 ```
 
