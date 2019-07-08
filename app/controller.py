@@ -101,11 +101,11 @@ class Controller:
 
     def _show_additional_translate_current_word(self):
         word = self.model.get_current().word
-        tr = self.translation_provider.translate(word)
+        tr = self.translation_provider.translate(word, all_possible=True)
         self.view.modal.show(word, tr)
 
     def _show_additional_translate_current_definition(self):
-        text = self.model.get_current().definition + '\n' + self.model.get_current().examples
+        text = "%s\n%s" % (self.model.get_current().definition, self.model.get_current().examples)
         tr = self.translation_provider.translate(text)
         self.view.modal.show(text, tr)
 

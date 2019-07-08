@@ -14,6 +14,8 @@ DEFAULTS = {
         'word-font-size': 22,
         'explain-font-family': 'Courier',
         'explain-font-size': 16,
+        'modal-font-family': 'Courier',
+        'modal-font-size': 16,
     },
     'popup': {
         # 'type': 'clock',

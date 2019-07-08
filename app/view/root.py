@@ -15,7 +15,7 @@ class MainFrame:
         Front(self, config).add()
         Menu(self).add()
         MainIcon(self.win).add()
-        self.modal = ModalBox(self)
+        self.modal = ModalBox(self, config)
 
     def show(self):
         if self.is_alive:

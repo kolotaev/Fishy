@@ -23,10 +23,12 @@ class GoogleTranslate(TranslateProvider):
         super().__init__(config)
         self.translator = Translator()
 
-    def translate(self, text, from_lang=None, to_lang=None, **kwargs):
+    def translate(self, text, from_lang=None, to_lang=None, all_possible=False, **kwargs):
         if not from_lang:
             from_lang = self.from_language
         if not to_lang:
             to_lang = self.to_language
         tt = self.translator.translate(text, src=from_lang, dest=to_lang)
+        if all_possible:
+            return tt.extra_data.get('all-translations', [])
         return tt.text
