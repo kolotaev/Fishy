@@ -22,12 +22,12 @@ class ModalBox:
         self.label.config(state=tk.NORMAL)
         self.label.insert(tk.END, text_all)
         self.label.config(state=tk.DISABLED)
-        self.label.pack(fill=tk.BOTH)
 
         self.button = tk.Button(self.dialog, text='Close', width=10, command=self.close)
 
-        self.label.pack(padx=16, pady=4, ipadx=4, ipady=10)
+        # pack elements
         self.button.pack(expand=False)
+        self.label.pack(padx=16, pady=4, ipadx=4, ipady=10)
 
         # self.main.win.update_idletasks()
         self.dialog.geometry('{}x{}+{}+{}'.format(*self.main.get_dimensions()))
