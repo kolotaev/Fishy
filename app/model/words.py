@@ -48,6 +48,7 @@ class WordsDatabase:
             self._repeat_counter = 0
             self._new_learn += 1
             self._current = self._new_learn
+        self.save()
         return self.get_current()
 
     def get_previous(self):
@@ -57,6 +58,7 @@ class WordsDatabase:
         elif self._current >= 0:
             self._new_learn -= 1
             self._current = self._new_learn
+        self.save()
         return self.get_current()
 
     def is_current_a_repeat(self):

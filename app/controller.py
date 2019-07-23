@@ -2,7 +2,6 @@ import threading
 import os.path
 import tkinter as tk
 from datetime import datetime
-import atexit
 
 from .configurator import Config
 from .view.root import MainFrame
@@ -45,7 +44,6 @@ class Controller:
         self.view.speak_btn_all.config(command=self._speak_current_definition)
         self.view.additional_translate_btn_one.config(command=self._show_additional_translate_current_word)
         self.view.additional_translate_btn_all.config(command=self._show_additional_translate_current_definition)
-        atexit.register(self.model.save)
 
     def start(self):
         self.showing_thread.start()
