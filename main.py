@@ -4,7 +4,7 @@ from app import Application
 
 
 def run():
-    if len(sys.argv) > 0:
+    if len(sys.argv) > 1:
         config = sys.argv[1]
     else:
         config = None
