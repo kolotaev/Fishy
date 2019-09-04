@@ -16,6 +16,7 @@ DEFAULTS = {
         'explain-font-size': 16,
         'modal-font-family': 'Courier',
         'modal-font-size': 16,
+        'background': '#FFFFFF',
     },
     'popup': {
         # 'type': 'clock',

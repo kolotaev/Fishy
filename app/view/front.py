@@ -25,9 +25,9 @@ class Front:
     All the elements are exposed and available in the root application window.
     """
     def __init__(self, app, config):
-        self.frame = tk.Frame(app.win)
-        self.app = app
         self.conf = config
+        self.frame = tk.Frame(app.win, background=self.conf.get('window', 'background'))
+        self.app = app
         self.controls = []
 
     def add(self):
