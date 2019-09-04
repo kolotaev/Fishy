@@ -14,8 +14,11 @@ from .providers.translation import create_translation_provider
 
 class Application:
     @staticmethod
-    def launch():
-        config_path = os.path.join(os.path.expanduser('~'), CONF_FILE_NAME)
+    def launch(config_file=CONF_FILE_NAME):
+        if config_file.startswith('~'):
+            config_path = os.path.join(os.path.expanduser('~'), config_file)
+        else:
+            config_path = config_file
         conf = Config(config_path, create=True)
         conf.init()
         controller = Controller(

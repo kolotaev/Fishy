@@ -6,7 +6,7 @@ if __name__ == '__main__':
         name='Fishy',
         description='GUI app for learning word corpus',
         keywords='Learning languages',
-        version='1.1.2',
+        version='1.2.0',
         author='Egor Kolotaev',
         author_email='ekolotaev@gmail.com',
         license="MIT",
