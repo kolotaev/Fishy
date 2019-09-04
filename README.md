@@ -25,8 +25,10 @@ Name comes from, you guess it, [this little fishy](https://en.wikipedia.org/wiki
 * `cd Fishy`
 * Run `make install`
 * Create CSV file with words in the aforementioned format and put it somewhere
-* Modify path to file in config `$HOME/.fishy_app.cnf`
+* Modify path to file in config `$HOME/.fishy_app.cnf` (or in '/your/custom/path/to/.fishy_app-custom.cnf')
 * Run `fishy` (Or `fishy &` to free console)
+* In order to run fishy with custom config run `fishy /your/custom/path/to/.fishy_app-custom.cnf` or
+`fishy /your/custom/path/to/.fishy_app-custom.cnf &`
 
 
 ## Example configuration
