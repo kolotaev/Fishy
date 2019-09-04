@@ -42,6 +42,7 @@ explain-font-family = Courier
 explain-font-size = 16
 modal-font-family = Courier
 modal-font-size = 16
+background = #FFFFFF
 
 [popup]
 show_timeout_value = 30
