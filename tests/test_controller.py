@@ -11,7 +11,7 @@ class TestController(TestCase):
         model = Mock()
         view = PropertyMock()
         showing_th = Mock()
-        ctrl = Controller(model, view, Mock())
+        ctrl = Controller(model, view, Mock(), Mock(), Mock())
         ctrl.showing_thread = showing_th
         ctrl.start()
         showing_th.start.assert_called_once()
@@ -22,7 +22,7 @@ class TestController(TestCase):
         model = Mock()
         view = PropertyMock()
         showing_th = Mock()
-        ctrl = Controller(model, view, Mock())
+        ctrl = Controller(model, view, Mock(), Mock(), Mock())
         ctrl.showing_thread = showing_th
         ctrl.stop()
         showing_th.terminate.assert_called_once()
