@@ -1,3 +1,4 @@
+import sys
 import csv
 import os.path
 
@@ -81,6 +82,8 @@ class CsvFileWords(WordsDatabase):
     CSV file database
     """
     def __init__(self, config):
+        # Allow long blob values in fields
+        csv.field_size_limit(sys.maxsize)
         super().__init__(config)
         file = os.path.expanduser(self.config.get('corpus', 'file_path'))
         if not os.path.exists(file):
