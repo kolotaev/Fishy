@@ -2,7 +2,6 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 
 from app.model.words import *
-from app.configurator import Config
 
 
 class TestWordsModel(TestCase):

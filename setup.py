@@ -6,7 +6,7 @@ if __name__ == '__main__':
         name='Fishy',
         description='GUI app for learning word corpus',
         keywords='Learning languages',
-        version='1.2.1',
+        version='1.2.2',
         author='Egor Kolotaev',
         author_email='ekolotaev@gmail.com',
         license="MIT",
@@ -21,7 +21,7 @@ if __name__ == '__main__':
         python_requires='>=3.6',
         install_requires=[
             'google_speech',
-            'googletrans',
+            'googletrans>=4.0.0rc1',
         ],
         extras_require={},
         packages=find_packages(exclude='tests'),
